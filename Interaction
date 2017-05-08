@@ -1,0 +1,257 @@
+
+////////////////////////                MAIN
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+package One;
+
+    import javafx.application.Application;
+    import javafx.geometry.Insets;
+    import javafx.geometry.Pos;
+    import javafx.scene.Scene;
+    import javafx.scene.control.Button;
+    import javafx.scene.control.Label;
+    import javafx.scene.control.PasswordField;
+    import javafx.scene.control.TextField;
+    import javafx.scene.layout.BorderPane;
+    import javafx.scene.layout.GridPane;
+    import javafx.scene.layout.HBox;
+    import javafx.scene.layout.VBox;
+    import javafx.scene.paint.Color;
+    import javafx.scene.text.Font;
+    import javafx.scene.text.Text;
+    import javafx.stage.Stage;
+
+    public class Test extends Application {
+
+        private Stage window;
+        private Button button1,button2;
+
+        public static void main(String[] args){
+            launch(args);
+        }
+
+        private void _CloseProgram(){
+            System.out.println(" Saved ! ");
+            window.close();
+        }
+
+        private boolean _isInteger(TextField line,String massage){
+            try{
+                int FOR_sample_INT = Integer.parseInt(line.getText());
+                System.out.println(" FOR_sample_INT -  " + FOR_sample_INT);
+                return true;
+            }catch (NumberFormatException e){
+                return false;
+            }
+        }
+
+        @Override
+        public void start(Stage primaryStage) throws Exception {
+            window = primaryStage;
+            window.setOnCloseRequest(event ->{
+                event.consume();
+                _CloseProgram();
+            } );
+
+
+            GridPane layout = new GridPane();
+            layout.setAlignment(Pos.CENTER);
+            layout.setHgap(10);
+            layout.setVgap(10);
+            layout.setPadding(new Insets(10,10,10,10));
+
+            Text text1 = new Text("Welcome guy !");
+            text1.setFont(new Font(25));
+            GridPane.setConstraints(text1,1,0);
+
+
+            Label label1 = new Label(" User name: ");
+            GridPane.setConstraints(label1,0,1);
+
+            TextField textfield1 = new TextField();
+            textfield1.setPromptText("Enter name");
+            GridPane.setConstraints(textfield1,1,1);
+
+            Label label2 = new Label(" Password: ");
+            GridPane.setConstraints(label2,0,2);
+
+            PasswordField passwordfield = new PasswordField();
+            passwordfield.setPromptText("Enter password");
+            GridPane.setConstraints(passwordfield,1,2);
+
+            final Text text2 = new Text();
+            GridPane.setConstraints(text2,1,6);
+
+            button1 = new Button(" Okey guy ! ");
+            GridPane.setConstraints(button1,1,4);
+
+            button1.setOnAction(e ->{
+                System.out.println(" Here is your log name " + textfield1.getText() + " ! ");
+                System.out.println(" Here is your password " + passwordfield.getText() + " ! ");
+                text2.setFill(Color.FIREBRICK);
+                text2.setText("You singed successfull !");
+                BaseWindow.display(" Polling aplication !");
+            } );
+
+            button2 = new Button("No guy !");
+            GridPane.setConstraints(button2,0,4);
+
+            button2.setOnAction(e ->{
+                Boolean answer = CloseWindow.display("Hellow sucks !","Are you sure to exit ?");
+                if(answer)
+                    _CloseProgram();
+            } );
+
+            //Label label3 = new Label("Your age:");
+
+            //layout.setGridLinesVisible(true);
+            layout.getChildren().addAll(text1,text2,label1,label2,button1,button2,textfield1,passwordfield);
+
+            BorderPane borderPan = new BorderPane();
+            borderPan.setCenter(layout);
+
+            Scene scene = new Scene(borderPan,400,300);
+            window.setTitle(" Hellow sucks ! ");
+            window.setScene(scene);
+            window.show();
+        }
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+class CloseWindow
+///////////////////
+package One;
+
+import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+
+
+public class CloseWindow {
+    private static Boolean answer;
+
+    public static boolean display(String title,String message){
+        Stage window = new Stage();
+        window.initModality(Modality.APPLICATION_MODAL);
+
+        VBox layout = new VBox(40);
+        layout.setAlignment(Pos.CENTER);
+
+        Label label = new Label(message);
+        layout.getChildren().add(label);
+
+        Button button1 = new Button(" Okey ! ");
+        layout.getChildren().add(button1);
+        button1.setOnAction(event ->{
+            answer = true;
+            window.close();
+        } );
+
+        Button button2 = new Button(" No ! ");
+        layout.getChildren().add(button2);
+        button2.setOnAction(event ->{
+            answer = false;
+            window.close();
+        } );
+
+        Scene scene = new Scene(layout,300,200);
+        window.setTitle(title);
+        window.setScene(scene);
+        window.showAndWait();
+
+        return answer;
+    }
+
+}
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+BaseWindow
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+package One;
+
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+
+public class BaseWindow {
+
+    public static void display(String title){
+        Stage window = new Stage();
+        window.initModality(Modality.APPLICATION_MODAL);
+
+        VBox layout = new VBox(20);
+        layout.setAlignment(Pos.CENTER);
+
+        CheckBox checkbox1 = new CheckBox("Yes");
+        CheckBox checkbox2 = new CheckBox("No");
+        CheckBox checkbox3 = new CheckBox("Yes");
+        CheckBox checkbox4 = new CheckBox("No");
+        CheckBox checkbox5 = new CheckBox("Yes");
+        CheckBox checkbox6 = new CheckBox("No");
+
+
+        Label label1 = new Label("/////////// Some quetion 1 ! /////////// ");
+        Label label2 = new Label("/////////// Some quetion 2 ! /////////// ");
+        Label label3 = new Label("/////////// Some quetion 3 ! /////////// ");
+
+        layout.getChildren().addAll(label1,checkbox1,checkbox2,label2,checkbox3,checkbox4,label3,checkbox5,checkbox6);
+
+        Button button2 = new Button(" Check Guy ! ");
+        button2.setOnAction(event ->{
+            handleOption(checkbox1,checkbox2,checkbox3,checkbox4,checkbox5,checkbox6);
+        } );
+        layout.getChildren().add(button2);
+
+        Button button1 = new Button(" Let's go back Guy ! ");
+        button1.setOnAction(event ->{
+            window.close();
+        } );
+        layout.getChildren().add(button1);
+
+
+        Scene scene = new Scene(layout,700,500);
+        window.setTitle(title);
+        window.setScene(scene);
+        window.showAndWait();
+    }
+
+    private static void handleOption(CheckBox checkbox1, CheckBox checkbox2,CheckBox checkbox3,CheckBox checkbox4,CheckBox checkbox5,CheckBox checkbox6) {
+        if(checkbox1.isSelected())
+            System.out.println(" Quetion #1. Answer is yes ! ");
+
+        if(checkbox2.isSelected())
+            System.out.println(" Quetion #1. Answer is no ! ");
+
+        if(checkbox3.isSelected())
+            System.out.println(" Quetion #2. Answer is yes ! ");
+
+        if(checkbox4.isSelected())
+            System.out.println(" Quetion #2. Answer is no ! ");
+
+        if(checkbox5.isSelected())
+            System.out.println(" Quetion #3. Answer is yes ! ");
+
+        if(checkbox6.isSelected())
+            System.out.println(" Quetion #3. Answer is no ! ");
+    }
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
