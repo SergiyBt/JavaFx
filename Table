@@ -1,0 +1,166 @@
+Main
+///////////////////////////////////////////////////////////////////////////////////////////
+
+package One;
+
+    import javafx.application.Application;
+    import javafx.collections.FXCollections;
+    import javafx.collections.ObservableList;
+    import javafx.geometry.Insets;
+    import javafx.geometry.Pos;
+    import javafx.scene.Scene;
+    import javafx.scene.control.*;
+    import javafx.scene.control.cell.PropertyValueFactory;
+    import javafx.scene.layout.BorderPane;
+    import javafx.scene.layout.GridPane;
+    import javafx.scene.layout.HBox;
+    import javafx.scene.layout.VBox;
+    import javafx.scene.paint.Color;
+    import javafx.scene.text.Font;
+    import javafx.scene.text.Text;
+    import javafx.stage.Stage;
+
+    public class Test extends Application {
+
+        private Stage window;
+        private Button button1,button2;
+        private TableView<TableData> table;
+        private TextField stringInput, doubleInput, intInput;
+
+        public static void main(String[] args){
+            launch(args);
+        }
+
+        private void _CloseProgram(){
+            System.out.println(" Saved ! ");
+            window.close();
+        }
+
+        @Override
+        public void start(Stage primaryStage) throws Exception {
+            window = primaryStage;
+
+            TableColumn<TableData,String> nameColumn = new TableColumn<>("Name");
+            nameColumn.setMinWidth(200);
+            nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+
+            TableColumn<TableData,Double> priceColumn = new TableColumn<>("Name");
+            priceColumn.setMinWidth(100);
+            priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
+
+            TableColumn<TableData,String> intColumn = new TableColumn<>("Quantity");
+            intColumn.setMinWidth(100);
+            intColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+
+            table = new TableView<>();
+            table.setItems(getData());
+            table.getColumns().addAll(nameColumn,priceColumn,intColumn);
+
+            stringInput = new TextField();
+            stringInput.setPromptText(" Name ");
+            stringInput.setMinWidth(100);
+
+            doubleInput = new TextField();
+            doubleInput.setPromptText(" Price ");
+
+            intInput = new TextField();
+            intInput.setPromptText(" Quantity ");
+
+            button1 = new Button("Add");
+            button1.setOnAction(e -> {
+
+                addButtonClick();
+            });
+            button2 = new Button("Delete");
+            button2.setOnAction(e -> deleteButtonClick());
+
+            HBox hbox = new HBox();
+            hbox.setSpacing(10);
+            hbox.setPadding(new Insets(10,10,10,10));
+            hbox.getChildren().addAll(stringInput,doubleInput,intInput,button1,button2);
+
+            VBox vbox = new VBox();
+            vbox.getChildren().addAll(table,hbox);
+
+            Scene scene = new Scene(vbox,600,400);
+            window.setTitle(" Title ! ");
+            window.setScene(scene);
+            window.show();
+        }
+        public ObservableList<TableData> getData(){
+            ObservableList<TableData> list = FXCollections.observableArrayList();
+            list.add(new TableData("Line1",34.5,34));
+            return list;
+        }
+        public void addButtonClick(){
+
+            TableData t = new TableData();
+
+            t.setName(stringInput.getText());
+
+            t.setPrice(Double.parseDouble(doubleInput.getText()));
+            //System.out.println("sdfsdfsf");
+            t.setQuantity(Integer.parseInt(intInput.getText()));
+            table.getItems().add(t);
+
+            stringInput.clear();
+            doubleInput.clear();
+            intInput.clear();
+        }
+        public void deleteButtonClick(){
+            ObservableList<TableData> select, allselect;
+            allselect = table.getItems();
+            select = table.getSelectionModel().getSelectedItems();
+
+            select.forEach(allselect::remove);
+        }
+}
+?//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+package One;
+
+
+public class TableData {
+
+    private String name;
+    private double price;
+    private int quantity;
+
+    public TableData(){
+        this.name = "";
+        this.price = 0.0;
+        this.quantity = 0;
+    }
+
+    public TableData(String name,double price,int quantity){
+        this.name = name;
+        this.price = price;
+        this.quantity = quantity;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
